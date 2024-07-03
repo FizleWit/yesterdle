@@ -19,7 +19,7 @@ spec:
           - name: dshm
             emptyDir:
               medium: Memory
-          initContainers:
+          containers:
           - name: selenium
             image: selenium/standalone-chrome:4.17
             securityContext:
@@ -29,10 +29,10 @@ spec:
             resources:
               limits:
                 cpu: '4'
-                memory: 3072Mi
+                memory: 3Gi
               requests:
                 cpu: '2'
-                memory: 1024Mi
+                memory: 1Gi
             env:
               - name: SE_VNC_NO_PASSWORD
                 value: "1"
@@ -44,11 +44,9 @@ spec:
                 value: "2"
             ports:
               - containerPort: 4444    
-            restartPolicy: Always
             volumeMounts:
             - mountPath: /dev/shm
               name: dshm
-          containers:
           - name: yesterdle-scraper
             image: criyl/yesterdle:latest
             command:
@@ -62,10 +60,10 @@ spec:
             resources:
               limits:
                 cpu: '4'
-                memory: 2048Mi
+                memory: 2Gi
               requests:
                 cpu: '2'
-                memory: 1024Mi
+                memory: 1Gi
             securityContext:
               capabilities:
                 add:
@@ -73,4 +71,9 @@ spec:
             env:
               - name: SELENIUM_URI
                 value: http://localhost:4444/wd/hub
-                
+            startupProbe:
+              httpGet:
+                path: /status
+                port: 4444
+              failureThreshold: 30
+              periodSeconds: 10
