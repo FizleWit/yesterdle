@@ -20,6 +20,7 @@ spec:
       initContainers:
       - name: selenium
         image: selenium/standalone-chrome:4.17
+        restartPolicy: Always
         securityContext:
           capabilities:
             add:
@@ -42,16 +43,9 @@ spec:
             value: "2"
         ports:
           - containerPort: 4444    
-        restartPolicy: Always
         volumeMounts:
         - mountPath: /dev/shm
           name: dshm
-        readinessProbe:
-          httpGet:
-            path: /status
-            port: 4444
-          failureThreshold: 5
-          periodSeconds: 5
       containers:
       - name: yesterdle-scraper
         image: criyl/yesterdle:latest
@@ -83,10 +77,3 @@ spec:
             port: 4444
           failureThreshold: 30
           periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /status
-            port: 4444
-          failureThreshold: 5
-          periodSeconds: 5
-                
