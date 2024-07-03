@@ -17,7 +17,7 @@ spec:
       - name: dshm
         emptyDir:
           medium: Memory
-      initContainers:
+      containers:
       - name: selenium
         image: selenium/standalone-chrome:4.17
         restartPolicy: Always
@@ -46,7 +46,7 @@ spec:
         volumeMounts:
         - mountPath: /dev/shm
           name: dshm
-      containers:
+      initContainers:
       - name: yesterdle-scraper
         image: criyl/yesterdle:latest
         command:
@@ -71,9 +71,3 @@ spec:
         env:
           - name: SELENIUM_URI
             value: http://localhost:4444/wd/hub
-        startupProbe:
-          httpGet:
-            path: /status
-            port: 4444
-          failureThreshold: 30
-          periodSeconds: 10
