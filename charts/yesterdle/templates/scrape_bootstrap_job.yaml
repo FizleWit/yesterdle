@@ -20,7 +20,6 @@ spec:
       containers:
       - name: selenium
         image: selenium/standalone-chrome:4.17
-        restartPolicy: Always
         securityContext:
           capabilities:
             add:
@@ -49,6 +48,7 @@ spec:
       initContainers:
       - name: yesterdle-scraper
         image: criyl/yesterdle:latest
+        restartPolicy: Always
         command:
           - bash
           - -c
