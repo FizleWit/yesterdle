@@ -46,6 +46,12 @@ spec:
         volumeMounts:
         - mountPath: /dev/shm
           name: dshm
+        readinessProbe:
+          httpGet:
+            path: /status
+            port: 4444
+          failureThreshold: 5
+          periodSeconds: 5
       containers:
       - name: yesterdle-scraper
         image: criyl/yesterdle:latest
