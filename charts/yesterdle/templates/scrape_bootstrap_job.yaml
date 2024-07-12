@@ -26,10 +26,10 @@ spec:
               - NET_ADMIN
         resources:
           limits:
-            cpu: '4'
+            cpu: '2'
             memory: 3Gi
           requests:
-            cpu: '1'
+            cpu: '.2'
             memory: 1Gi
         env:
           - name: SE_VNC_NO_PASSWORD
@@ -57,10 +57,10 @@ spec:
             name: server-data
         resources:
           limits:
-            cpu: '4'
+            cpu: '2'
             memory: 2Gi
           requests:
-            cpu: '1'
+            cpu: '.2'
             memory: 1Gi
         securityContext:
           capabilities:
