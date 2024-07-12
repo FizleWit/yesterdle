@@ -1,2 +1,4 @@
-hostPort: "31809"
 schedule: "30 0 * * *"
+replicas: 1
+persistence:
+  existingClaim: data-yesterdle-simpledb-0

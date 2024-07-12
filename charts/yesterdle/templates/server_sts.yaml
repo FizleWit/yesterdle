@@ -7,13 +7,12 @@ metadata:
 spec:
   ports:
   - name: yesterdle-server
-    nodePort: {{ .Values.hostPort }}
     port: 8080
     protocol: TCP
     targetPort: 8080
   selector:
     app: yesterdle-server
-  type: NodePort
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -23,7 +22,7 @@ metadata:
   name: yesterdle-server
 spec:
   serviceName: "yesterdle-service"
-  replicas: 1
+  replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
       app: yesterdle-server
@@ -49,9 +48,9 @@ spec:
               cpu: '4'
               memory: 2048Mi
             requests:
-              cpu: '2'
+              cpu: '1'
               memory: 1024Mi
       volumes:
         - name: server-data
-          hostPath:
-            path: /mnt/k3s/yesterdle
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim }}
